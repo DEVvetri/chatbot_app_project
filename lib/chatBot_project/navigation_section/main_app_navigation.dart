@@ -1,5 +1,7 @@
 import 'package:chatbot_app_project/chatBot_project/Profile_module/profile_screen.dart';
 import 'package:chatbot_app_project/chatBot_project/chat_module/chat_screen.dart';
+import 'package:chatbot_app_project/chatBot_project/chatbot_module/message/chat_list.dart';
+import 'package:chatbot_app_project/chatBot_project/chatbot_module/message/group_screen.dart';
 import 'package:chatbot_app_project/chatBot_project/commons.dart';
 import 'package:chatbot_app_project/chatBot_project/folder_module/folder_screen.dart';
 import 'package:chatbot_app_project/chatBot_project/home_module/home_screen.dart';
@@ -18,7 +20,7 @@ class _MainAppNavigationState extends State<MainAppNavigation> {
 
   final List<Widget> pages = [
     HomeScreen(),
-    ChatScreen(),
+    GroupScreen(),
     FolderScreen(),
     ProfileScreen()
   ];

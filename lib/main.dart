@@ -1,11 +1,15 @@
 // ignore_for_file: library_private_types_in_public_api, sort_child_properties_last
 
-import 'package:chatbot_app_project/chatBot_project/login_module/bloc/login_bloc_bloc.dart';
-import 'package:chatbot_app_project/chatBot_project/login_module/login_screen.dart';
+import 'package:chatbot_app_project/auth/checking_auth.dart';
+import 'package:chatbot_app_project/chatBot_project/Profile_module/profile_view_screen.dart';
+import 'package:chatbot_app_project/chatBot_project/bloc_module/profile_bloc/profile_bloc.dart';
+import 'package:chatbot_app_project/chatBot_project/bloc_module/login_bloc/login_bloc_bloc.dart';
+import 'package:chatbot_app_project/chatBot_project/navigation_section/main_app_navigation.dart';
 import 'package:chatbot_app_project/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -22,17 +26,20 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider(
           create: (context) => LoginBlocBloc(),
-          child: Container(),
+        ),
+        BlocProvider(
+          create: (context) => EditProfileBloc(),
+          child: ProfileViewScreen(),
         )
       ],
-      child: MaterialApp(
+      child: GetMaterialApp(
         title: 'chatBot Demo',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
           useMaterial3: true,
         ),
-        home: LoginScreen(),
+        home: CheckingAuth(),
       ),
     );
   }

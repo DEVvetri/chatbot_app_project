@@ -24,10 +24,10 @@ class LoginBlocBloc extends Bloc<LoginBlocEvent, LoginBlocState> {
   Future<void> _logout(LogoutEvent event, Emitter<LoginBlocState> emit) async {
     try {
       emit(LoginBlocLoading());
-      // Update the state based on the event's data
       emit(LoginBlocLoaded(false));
     } catch (e) {
       emit(LoginBlocError('Error updating login status'));
     }
   }
+
 }
