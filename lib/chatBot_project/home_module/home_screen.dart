@@ -4,6 +4,7 @@ import 'dart:ui';
 
 import 'package:chatbot_app_project/chatBot_project/chatbot_module/chatBot_screen.dart';
 import 'package:chatbot_app_project/chatBot_project/commons.dart';
+import 'package:chatbot_app_project/sample%20working/chat_UI_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 
@@ -164,7 +165,7 @@ class _HomeScreenState extends State<HomeScreen> {
         onTap: () => Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => ChatbotScreen(),
+              builder: (context) => ModelChatMessageScreen(),
             )),
         child: Padding(
           padding: const EdgeInsets.all(8.0),
