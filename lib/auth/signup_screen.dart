@@ -1,11 +1,8 @@
 import 'package:chatbot_app_project/auth/signin_screen.dart';
 import 'package:chatbot_app_project/firebase/user_service.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:iconsax/iconsax.dart';
-import 'package:uuid/uuid.dart';
 
 class SignupScreen extends StatefulWidget {
   const SignupScreen({super.key});
@@ -82,6 +79,7 @@ class _SignupScreenState extends State<SignupScreen> {
       )
           .whenComplete(() {
         userDataReferance.addUser(
+            username: _usernameController.text,
             name: _nameController.text,
             email: email,
             contactNumber: _numberController.text,
@@ -112,7 +110,6 @@ class _SignupScreenState extends State<SignupScreen> {
   @override
   Widget build(BuildContext context) {
     final double totalWidth = MediaQuery.of(context).size.width;
-    final double totalHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
       body: Center(

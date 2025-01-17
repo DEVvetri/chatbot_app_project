@@ -21,7 +21,7 @@ class BubbleSpecialThree extends StatelessWidget {
   final BoxConstraints? constraints;
 
   const BubbleSpecialThree({
-    Key? key,
+    super.key,
     this.isSender = true,
     this.constraints,
     required this.text,
@@ -34,7 +34,7 @@ class BubbleSpecialThree extends StatelessWidget {
       color: Colors.black87,
       fontSize: 16,
     ),
-  }) : super(key: key);
+  });
 
   ///chat bubble builder method
   @override

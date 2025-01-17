@@ -1,5 +1,5 @@
 
-import 'package:chatbot_app_project/chatBot_project/chatbot_module/message/group_messages.dart';
+import 'package:chatbot_app_project/chatBot_project/chating_module/message/group_messages.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class GroupMessageReferance {
@@ -11,7 +11,7 @@ class GroupMessageReferance {
     String timeForID =
         '${DateTime.now().hour}:${DateTime.now().minute}:${DateTime.now().second}.${DateTime.now().microsecond}';
     String customID =
-        '${DateTime.now().toString().replaceRange(10, null, "").toString()} ${timeForID}';
+        '${DateTime.now().toString().replaceRange(10, null, "").toString()} $timeForID';
     List<String> userNameGetter = [];
     await FirebaseFirestore.instance
         .collection('Users')

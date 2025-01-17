@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:chatbot_app_project/auth/checking_auth.dart';
 import 'package:chatbot_app_project/auth/signup_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -76,7 +78,6 @@ class _SigninScreenState extends State<SigninScreen> {
   @override
   Widget build(BuildContext context) {
     final double totalWidth = MediaQuery.of(context).size.width;
-    final double totalHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
       body: Center(

@@ -1,3 +1,5 @@
+// ignore_for_file: depend_on_referenced_packages
+
 import 'dart:io';
 import 'package:chatbot_app_project/chatBot_project/folder_module/cloud_storage/myfile_screen.dart';
 import 'package:chatbot_app_project/chatBot_project/folder_module/cloud_storage/sharedwith_screen.dart';
@@ -269,7 +271,6 @@ class _FilesScreenState extends State<FilesScreen> {
 
   @override
   Widget build(BuildContext context) {
-    double totalWidth = MediaQuery.of(context).size.width;
 
     return DefaultTabController(
       length: 2,

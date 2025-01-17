@@ -2,9 +2,10 @@
 
 import 'dart:ui';
 
-import 'package:chatbot_app_project/chatBot_project/chatbot_module/chatBot_screen.dart';
+import 'package:chatbot_app_project/chatBot_project/chating_module/message/group_screen.dart';
 import 'package:chatbot_app_project/chatBot_project/commons.dart';
-import 'package:chatbot_app_project/sample%20working/chat_UI_screen.dart';
+import 'package:chatbot_app_project/chatBot_project/games_modules/games_listing_screen.dart';
+import 'package:chatbot_app_project/chatbotServer/chat_UI_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 
@@ -19,7 +20,6 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Commons().black1Color,
       body: SingleChildScrollView(
         child: Container(
           decoration: BoxDecoration(
@@ -55,11 +55,13 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Row(
-                      children: [_buildGamesBox(context)],
+                      children: [
+                        _buildGamesBox(context),
+                        _buildGroupChatBox(context)
+                      ],
                     ),
                   ),
                 ),
-           
               ],
             ),
           ),
@@ -177,7 +179,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   filter: ImageFilter.blur(sigmaX: 25.0, sigmaY: 25.0),
                   child: Container(
                     decoration: BoxDecoration(
-                      color: Colors.black.withOpacity(0.3),
+                      color: Colors.black.withOpacity(1),
                       borderRadius: BorderRadius.circular(12.0),
                       border: Border.all(
                         color: Colors.white.withOpacity(0.125),
@@ -257,7 +259,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 filter: ImageFilter.blur(sigmaX: 25.0, sigmaY: 25.0),
                 child: Container(
                   decoration: BoxDecoration(
-                    color: Colors.black.withOpacity(0.3),
+                    color: Colors.black.withOpacity(1),
                     borderRadius: BorderRadius.circular(12.0),
                     border: Border.all(
                       color: Colors.white.withOpacity(0.125),
@@ -325,80 +327,173 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget _buildGamesBox(BuildContext context) {
     return Expanded(
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(12.0),
-          child: Stack(
-            children: [
-              BackdropFilter(
-                filter: ImageFilter.blur(sigmaX: 25.0, sigmaY: 25.0),
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Colors.black.withOpacity(0.3),
-                    borderRadius: BorderRadius.circular(12.0),
-                    border: Border.all(
-                      color: Colors.white.withOpacity(0.125),
-                      width: 1.0,
+      child: GestureDetector(
+        onTap: () => Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => GamesListingScreen(),
+            )),
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(12.0),
+            child: Stack(
+              children: [
+                BackdropFilter(
+                  filter: ImageFilter.blur(sigmaX: 25.0, sigmaY: 25.0),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.black.withOpacity(1),
+                      borderRadius: BorderRadius.circular(12.0),
+                      border: Border.all(
+                        color: Colors.white.withOpacity(0.125),
+                        width: 1.0,
+                      ),
                     ),
                   ),
                 ),
-              ),
-              Center(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    SizedBox(
-                      height: 5,
-                    ),
-                    Container(
-                      width: 60,
-                      height: 60,
-                      decoration: BoxDecoration(
-                          color: Commons().blueColor.withAlpha(30),
-                          borderRadius: BorderRadius.all(Radius.circular(100))),
-                      child: Icon(
-                        Iconsax.game,
-                        size: 30,
-                        color: Commons().blueColor,
+                Center(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      SizedBox(
+                        height: 5,
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 10),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Games',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 10),
-                            child: Text(
-                              'flow tap to move',
+                      Container(
+                        width: 60,
+                        height: 60,
+                        decoration: BoxDecoration(
+                            color: Commons().blueColor.withAlpha(30),
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(100))),
+                        child: Icon(
+                          Iconsax.game,
+                          size: 30,
+                          color: Commons().blueColor,
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 10),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Games',
                               style: TextStyle(
                                 color: Colors.white,
-                                fontSize: 12,
+                                fontSize: 18,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
-                          ),
-                        ],
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 10),
+                              child: Text(
+                                'flow tap to move',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
     );
   }
 
+  Widget _buildGroupChatBox(BuildContext context) {
+    return Expanded(
+      child: GestureDetector(
+        onTap: () => Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => GroupScreen(),
+            )),
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(12.0),
+            child: Stack(
+              children: [
+                BackdropFilter(
+                  filter: ImageFilter.blur(sigmaX: 25.0, sigmaY: 25.0),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.black.withOpacity(1),
+                      borderRadius: BorderRadius.circular(12.0),
+                      border: Border.all(
+                        color: Colors.white.withOpacity(0.125),
+                        width: 1.0,
+                      ),
+                    ),
+                  ),
+                ),
+                Center(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      SizedBox(
+                        height: 5,
+                      ),
+                      Container(
+                        width: 60,
+                        height: 60,
+                        decoration: BoxDecoration(
+                            color: Commons().blueColor.withAlpha(30),
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(100))),
+                        child: Icon(
+                          Iconsax.call,
+                          size: 30,
+                          color: Commons().blueColor,
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 10),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Group Chats',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 10),
+                              child: Text(
+                                'flow tap to move',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
 }

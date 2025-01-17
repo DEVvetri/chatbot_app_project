@@ -7,6 +7,7 @@ class UserDataReferance {
       FirebaseFirestore.instance.collection('Users');
 
   Future<void> addUser({
+    required String username,
     required String name,
     required String email,
     required String contactNumber,
@@ -19,6 +20,7 @@ class UserDataReferance {
     await users.doc(customId).set(
       {
         'id': customId,
+        'username': username,
         'name': name,
         'contact_number': contactNumber,
         'gender': gender,
@@ -27,29 +29,31 @@ class UserDataReferance {
         'role': role,
         'created_at': Timestamp.now(),
         'updated_at': Timestamp.now(),
-        'private':false
+        'private': false,
+        'followers': [],
+        'following': []
       },
     );
   }
 
-  Future<dynamic> updateUser({
-    required String name,
-    required String email,
-    required String contactNumber,
-    required String gender,
-    required String profilePicUrl,
-    required String role,
-    required String dateOfBirth,
-    required String userID,
-  }) {
+  Future<dynamic> updateUser(
+      {required String username,
+      required String name,
+      required String contactNumber,
+      required String gender,
+      required String profilePicUrl,
+      required String role,
+      required String userID,
+      required bool private}) {
     return users.doc(userID).update(
       {
+        'username': username,
         'name': name,
         'contact_number': contactNumber,
         'gender': gender,
-        'email': email,
         'profile_pic_Url': profilePicUrl,
         'role': role,
+        'private': private,
         'updated_at': Timestamp.now(),
       },
     );

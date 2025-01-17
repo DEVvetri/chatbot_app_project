@@ -1,11 +1,11 @@
+// ignore_for_file: unused_local_variable, library_private_types_in_public_api, sort_child_properties_last
+
 import 'package:chatbot_app_project/chatBot_project/Profile_module/profile_screen.dart';
-import 'package:chatbot_app_project/chatBot_project/chat_module/chat_screen.dart';
-import 'package:chatbot_app_project/chatBot_project/chatbot_module/message/chat_list.dart';
-import 'package:chatbot_app_project/chatBot_project/chatbot_module/message/group_screen.dart';
 import 'package:chatbot_app_project/chatBot_project/commons.dart';
 import 'package:chatbot_app_project/chatBot_project/folder_module/cloud_storage/folders_screen.dart';
-import 'package:chatbot_app_project/chatBot_project/folder_module/folder_screen.dart';
 import 'package:chatbot_app_project/chatBot_project/home_module/home_screen.dart';
+import 'package:chatbot_app_project/chatBot_project/post_module/post_listing_screen.dart';
+import 'package:chatbot_app_project/chatBot_project/search_module/search_page.dart';
 import 'package:flutter/material.dart';
 import 'package:iconsax/iconsax.dart';
 
@@ -21,7 +21,8 @@ class _MainAppNavigationState extends State<MainAppNavigation> {
 
   final List<Widget> pages = [
     HomeScreen(),
-    GroupScreen(),
+    PostListScreen(),
+    SearchScreen(),
     FoldersScreen(),
     ProfileScreen()
   ];
@@ -34,15 +35,15 @@ class _MainAppNavigationState extends State<MainAppNavigation> {
         children: pages,
       ),
       bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: Commons().black1Color,
+        backgroundColor: Commons().blueColor.withAlpha(255),
         currentIndex: currentIndex,
         onTap: (value) {
           setState(() {
             currentIndex = value;
           });
         },
-        selectedItemColor: Commons().blueColor,
-        unselectedItemColor: Commons().whiteColor,
+        selectedItemColor: Colors.black,
+        unselectedItemColor: Colors.white,
         type: BottomNavigationBarType.fixed,
         items: [
           BottomNavigationBarItem(
@@ -50,8 +51,12 @@ class _MainAppNavigationState extends State<MainAppNavigation> {
             label: "Home",
           ),
           BottomNavigationBarItem(
-            icon: Icon(Iconsax.message),
-            label: "Chat",
+            icon: Icon(Iconsax.activity),
+            label: "Feeds",
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.search),
+            label: "Search",
           ),
           BottomNavigationBarItem(
             icon: Icon(Iconsax.folder_2),

@@ -1,11 +1,15 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:chatbot_app_project/chatBot_project/Profile_module/profile_edit_screen.dart';
 import 'package:chatbot_app_project/chatBot_project/bloc_module/profile_bloc/profile_bloc.dart';
 import 'package:chatbot_app_project/chatBot_project/bloc_module/profile_bloc/profile_state.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ProfileViewScreen extends StatelessWidget {
-  const ProfileViewScreen({super.key});
+  DocumentSnapshot profileId;
+  ProfileViewScreen({super.key, required this.profileId});
 
   @override
   Widget build(BuildContext context) {
@@ -97,7 +101,9 @@ class ProfileViewScreen extends StatelessWidget {
                           const Divider(),
                           ListTile(
                             leading: Icon(
-                              state.isPrivate ? Icons.lock_outline : Icons.public,
+                              state.isPrivate
+                                  ? Icons.lock_outline
+                                  : Icons.public,
                             ),
                             title: const Text("Account Privacy"),
                             subtitle: Text(
@@ -124,7 +130,9 @@ class ProfileViewScreen extends StatelessWidget {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => const ProfileEditScreen(),
+                            builder: (context) => ProfileEditScreen(
+                              docId: profileId.id,
+                            ),
                           ),
                         );
                       },

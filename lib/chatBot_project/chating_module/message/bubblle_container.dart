@@ -1,4 +1,6 @@
-import 'package:chatbot_app_project/chatBot_project/chatbot_module/message/backup_bubble.dart';
+// ignore_for_file: deprecated_member_use
+
+import 'package:chatbot_app_project/chatBot_project/chating_module/message/backup_bubble.dart';
 import 'package:flutter/material.dart';
 
 class BubbleMessage extends StatefulWidget {
@@ -26,9 +28,7 @@ class _BubbleMessageState extends State<BubbleMessage> {
   @override
   Widget build(BuildContext context) {
     return BubbleSpecialThree(
-        color: widget.isMe
-            ? Theme.of(context).colorScheme.primaryContainer
-            : Theme.of(context).colorScheme.secondaryContainer,
+        color: widget.isMe ? Colors.white : Colors.blue,
         tail: true,
         text: widget.message,
         textStyle: Theme.of(context)

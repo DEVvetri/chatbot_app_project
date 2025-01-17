@@ -1,4 +1,3 @@
-
 // ignore_for_file: library_private_types_in_public_api
 
 import 'dart:math';
@@ -53,10 +52,24 @@ class _AdaptiveGameScreenState extends State<AdaptiveGameScreen> {
     showDialog(
       context: context,
       builder: (ctx) => AlertDialog(
-        title: Text('Game Over'),
-        content: Text('Your score is $_score'),
+        backgroundColor: Colors.transparent,
+        content: SizedBox(
+          height: 300,
+          child: Column(
+            children: [
+              Container(
+                width: 150,
+                height: 150,
+                decoration: BoxDecoration(
+                    image: DecorationImage(
+                        image: AssetImage('assets/images/gameOver.png'))),
+              ),
+              Text('Your score is $_score'),
+            ],
+          ),
+        ),
         actions: [
-          TextButton(
+          ElevatedButton(
             onPressed: () {
               setState(() {
                 _score = 0;
@@ -75,7 +88,10 @@ class _AdaptiveGameScreenState extends State<AdaptiveGameScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Adaptive Learning Game')),
+      backgroundColor: Colors.blue,
+      appBar: AppBar(
+          backgroundColor: Colors.blueAccent,
+          title: Text('Adaptive Learning Game')),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -96,6 +112,7 @@ class _AdaptiveGameScreenState extends State<AdaptiveGameScreen> {
               keyboardType: TextInputType.number,
               decoration: InputDecoration(
                 border: OutlineInputBorder(),
+                enabledBorder: UnderlineInputBorder(),
                 labelText: 'Your Answer',
               ),
             ),

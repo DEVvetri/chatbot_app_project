@@ -44,10 +44,24 @@ class _SimulationGameScreenState extends State<SimulationGameScreen> {
     showDialog(
       context: context,
       builder: (ctx) => AlertDialog(
-        title: Text('Game Over'),
-        content: Text('Your score is $_score'),
+        backgroundColor: Colors.transparent,
+        content: SizedBox(
+          height: 300,
+          child: Column(
+            children: [
+              Container(
+                width: 150,
+                height: 150,
+                decoration: BoxDecoration(
+                    image: DecorationImage(
+                        image: AssetImage('assets/images/gameOver.png'))),
+              ),
+              Text('Your score is $_score'),
+            ],
+          ),
+        ),
         actions: [
-          TextButton(
+          ElevatedButton(
             onPressed: () {
               setState(() {
                 _currentScenario = 0;
@@ -65,7 +79,9 @@ class _SimulationGameScreenState extends State<SimulationGameScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Simulation Game')),
+      backgroundColor: Colors.blue,
+      appBar: AppBar(
+          backgroundColor: Colors.blueAccent, title: Text('Simulation Game')),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(

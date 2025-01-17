@@ -32,7 +32,7 @@ class _CheckingAuthState extends State<CheckingAuth> {
                         .data() as Map<String, dynamic>;
                     String role = userData['role'];
                     if (role == 'Student') {
-                      return const MainAppNavigation();
+                      return MainAppNavigation();
                     } else if (role == 'Teacher') {
                       return const MainAppNavigation();
                     } else if (role == 'Parents') {
@@ -44,11 +44,7 @@ class _CheckingAuthState extends State<CheckingAuth> {
                 } else if (snapshot.hasError) {
                   return Center(child: Text('Error: ${snapshot.error}'));
                 }
-                return Center(
-                    child: ElevatedButton(
-                  onPressed: () => FirebaseAuth.instance.signOut(),
-                  child: Text("out"),
-                ));
+                return const OnboardingScreen();
               },
             );
           } else {

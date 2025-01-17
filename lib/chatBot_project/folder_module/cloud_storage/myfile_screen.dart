@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:io';
 import 'package:chatbot_app_project/chatBot_project/folder_module/cloud_storage/files_views/audio_player_screen.dart';
 import 'package:chatbot_app_project/chatBot_project/folder_module/cloud_storage/files_views/image_view_screen.dart';
