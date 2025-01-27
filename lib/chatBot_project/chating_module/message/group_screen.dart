@@ -1,5 +1,6 @@
 import 'package:chatbot_app_project/chatBot_project/chating_module/message/bubblle_container.dart';
 import 'package:chatbot_app_project/chatBot_project/chating_module/message/group_chat_screen.dart';
+import 'package:chatbot_app_project/chatBot_project/commons.dart';
 import 'package:chatbot_app_project/firebase/group_chat_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -124,6 +125,7 @@ class _GroupScreenState extends State<GroupScreen> {
     double totalWidth = MediaQuery.of(context).size.width;
     return Scaffold(
         appBar: AppBar(
+          backgroundColor: Commons().blueColor,
           automaticallyImplyLeading: true,
           title: const Text('Message'),
           actions: [

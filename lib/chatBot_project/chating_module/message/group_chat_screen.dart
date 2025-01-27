@@ -2,6 +2,7 @@
 
 import 'package:chatbot_app_project/chatBot_project/chating_module/message/bubblle_container.dart';
 import 'package:chatbot_app_project/chatBot_project/chating_module/message/group_info_screen.dart';
+import 'package:chatbot_app_project/chatBot_project/commons.dart';
 import 'package:chatbot_app_project/firebase/group_chat_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -59,6 +60,7 @@ class _GroupMessageScreenMobState extends State<GroupMessageScreenMob> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Commons().blueColor,
         title: Row(
           children: [
             const SizedBox(
@@ -182,252 +184,261 @@ class _GroupMessageScreenMobState extends State<GroupMessageScreenMob> {
           ),
         ],
       ),
-      body: Column(
-        children: [
-          Column(
-            children: [
-              SizedBox(
-                height: MediaQuery.of(context).size.height / 1.4,
-                child: Container(
-                  color: Colors.white,
-                  child: StreamBuilder(
-                    stream: FirebaseFirestore.instance
-                        .collection('Chats')
-                        .doc(widget.groupID)
-                        .collection('Messages')
-                        .orderBy('timestamp')
-                        .snapshots(),
-                    builder: (
-                      context,
-                      snapshot,
-                    ) {
-                      if (snapshot.hasError) {
-                        return const Center(
-                          child: Text(
-                            'Something went wrong',
-                          ),
-                        );
-                      }
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return const Center(
-                          child: CircularProgressIndicator(),
-                        );
-                      }
-                      // come here
-                      return ListView(
-                        controller: scrollController,
-                        children: snapshot.data!.docs
-                            .map((e) => InkWell(
-                                onLongPress: () {
-                                  if (e['sender_email'] == currentUser!.email) {
-                                    setState(() {
-                                      updatedMessageController.text =
-                                          e['message'];
-                                    });
-                                    showDialog(
-                                      context: context,
-                                      builder: (context) => AlertDialog(
-                                        title: const Text(
-                                          'New group',
-                                        ),
-                                        content: SizedBox(
-                                          width: 350,
-                                          child: TextFormField(
-                                            controller:
-                                                updatedMessageController,
-                                            decoration: InputDecoration(
-                                              enabledBorder: OutlineInputBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(15),
-                                              ),
-                                              focusedBorder: OutlineInputBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(15),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Column(
+              children: [
+                SizedBox(
+                  height: MediaQuery.of(context).size.height / 1.4,
+                  child: Container(
+                    color: Colors.white,
+                    child: StreamBuilder(
+                      stream: FirebaseFirestore.instance
+                          .collection('Chats')
+                          .doc(widget.groupID)
+                          .collection('Messages')
+                          .orderBy('timestamp')
+                          .snapshots(),
+                      builder: (
+                        context,
+                        snapshot,
+                      ) {
+                        if (snapshot.hasError) {
+                          return const Center(
+                            child: Text(
+                              'Something went wrong',
+                            ),
+                          );
+                        }
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return const Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        }
+                        // come here
+                        return ListView(
+                          controller: scrollController,
+                          children: snapshot.data!.docs
+                              .map((e) => InkWell(
+                                  onLongPress: () {
+                                    if (e['sender_email'] ==
+                                        currentUser!.email) {
+                                      setState(() {
+                                        updatedMessageController.text =
+                                            e['message'];
+                                      });
+                                      showDialog(
+                                        context: context,
+                                        builder: (context) => AlertDialog(
+                                          title: const Text(
+                                            'New group',
+                                          ),
+                                          content: SizedBox(
+                                            width: 350,
+                                            child: TextFormField(
+                                              controller:
+                                                  updatedMessageController,
+                                              decoration: InputDecoration(
+                                                enabledBorder:
+                                                    OutlineInputBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(15),
+                                                ),
+                                                focusedBorder:
+                                                    OutlineInputBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(15),
+                                                ),
                                               ),
                                             ),
                                           ),
-                                        ),
-                                        actions: [
-                                          OutlinedButton(
-                                            onPressed: () {
-                                              updatedMessageController.clear();
-                                              Get.back();
-                                            },
-                                            child: const Text(
-                                              'Cancel',
-                                            ),
-                                          ),
-                                          ElevatedButton(
-                                            onPressed: () async {
-                                              groupMessageReferance
-                                                  .editMessage(
-                                                      widget.groupID,
-                                                      e.id,
-                                                      updatedMessageController
-                                                          .text)
-                                                  .whenComplete(() {
+                                          actions: [
+                                            OutlinedButton(
+                                              onPressed: () {
                                                 updatedMessageController
                                                     .clear();
                                                 Get.back();
-                                              });
-                                            },
-                                            child: const Text(
-                                              'edit',
+                                              },
+                                              child: const Text(
+                                                'Cancel',
+                                              ),
                                             ),
-                                          ),
-                                        ],
-                                      ),
-                                    );
-                                  } else {}
-                                },
-                                child: messageGet(e, context, widget.groupID)))
-                            .toList(),
-                      );
-                    },
+                                            ElevatedButton(
+                                              onPressed: () async {
+                                                groupMessageReferance
+                                                    .editMessage(
+                                                        widget.groupID,
+                                                        e.id,
+                                                        updatedMessageController
+                                                            .text)
+                                                    .whenComplete(() {
+                                                  updatedMessageController
+                                                      .clear();
+                                                  Get.back();
+                                                });
+                                              },
+                                              child: const Text(
+                                                'edit',
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      );
+                                    } else {}
+                                  },
+                                  child:
+                                      messageGet(e, context, widget.groupID)))
+                              .toList(),
+                        );
+                      },
+                    ),
                   ),
                 ),
-              ),
-            ],
-          ),
-          widget.initialOption == 'Admin Only' &&
-                  !widget.membersPermission[currentUser!.email]['is_admin']
-              ? Padding(
-                  padding: const EdgeInsets.only(
-                      bottom: 32, top: 16.0, left: 16.0, right: 16),
-                  child: Container(
-                    height: 50,
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(32),
-                        boxShadow: [
-                          BoxShadow(
-                              color: Colors.green.withOpacity(0.5),
-                              spreadRadius: 5,
-                              blurRadius: 7,
-                              offset: Offset(0, 3))
-                        ]),
-                    child: Row(
-                      children: [
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width - 90,
-                          child: TextField(
-                            controller: messageController,
-                            style: Theme.of(context).textTheme.titleSmall,
-                            decoration: InputDecoration(
-                                enabled: false,
-                                hintText: 'Admins can only send message',
-                                hintStyle: Theme.of(context)
-                                    .textTheme
-                                    .titleSmall!
-                                    .copyWith(color: Colors.grey),
-                                border: InputBorder.none,
-                                contentPadding:
-                                    EdgeInsets.symmetric(horizontal: 20)),
+              ],
+            ),
+            widget.initialOption == 'Admin Only' &&
+                    !widget.membersPermission[currentUser!.email]['is_admin']
+                ? Padding(
+                    padding: const EdgeInsets.only(
+                        bottom: 32, top: 16.0, left: 16.0, right: 16),
+                    child: Container(
+                      height: 50,
+                      decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(32),
+                          boxShadow: [
+                            BoxShadow(
+                                color: Colors.green.withOpacity(0.5),
+                                spreadRadius: 5,
+                                blurRadius: 7,
+                                offset: Offset(0, 3))
+                          ]),
+                      child: Row(
+                        children: [
+                          SizedBox(
+                            width: MediaQuery.of(context).size.width - 90,
+                            child: TextField(
+                              controller: messageController,
+                              style: Theme.of(context).textTheme.titleSmall,
+                              decoration: InputDecoration(
+                                  enabled: false,
+                                  hintText: 'Admins can only send message',
+                                  hintStyle: Theme.of(context)
+                                      .textTheme
+                                      .titleSmall!
+                                      .copyWith(color: Colors.grey),
+                                  border: InputBorder.none,
+                                  contentPadding:
+                                      EdgeInsets.symmetric(horizontal: 20)),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  )
+                : widget.membersPermission[currentUser!.email]['is_read_only']
+                    ? Padding(
+                        padding: const EdgeInsets.only(
+                            bottom: 32, top: 16.0, left: 16.0, right: 16),
+                        child: Container(
+                          height: 50,
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(32),
+                              boxShadow: [
+                                BoxShadow(
+                                    color: Colors.red.withOpacity(0.5),
+                                    spreadRadius: 5,
+                                    blurRadius: 7,
+                                    offset: Offset(0, 3))
+                              ]),
+                          child: Row(
+                            children: [
+                              SizedBox(
+                                width: MediaQuery.of(context).size.width - 90,
+                                child: TextField(
+                                  controller: messageController,
+                                  style: Theme.of(context).textTheme.titleSmall,
+                                  decoration: InputDecoration(
+                                      enabled: false,
+                                      hintText:
+                                          'You can only able to read messages',
+                                      hintStyle: Theme.of(context)
+                                          .textTheme
+                                          .titleSmall!
+                                          .copyWith(color: Colors.grey),
+                                      border: InputBorder.none,
+                                      contentPadding:
+                                          EdgeInsets.symmetric(horizontal: 20)),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
-                      ],
-                    ),
-                  ),
-                )
-              : widget.membersPermission[currentUser!.email]['is_read_only']
-                  ? Padding(
-                      padding: const EdgeInsets.only(
-                          bottom: 32, top: 16.0, left: 16.0, right: 16),
-                      child: Container(
-                        height: 50,
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(32),
-                            boxShadow: [
-                              BoxShadow(
-                                  color: Colors.red.withOpacity(0.5),
-                                  spreadRadius: 5,
-                                  blurRadius: 7,
-                                  offset: Offset(0, 3))
-                            ]),
-                        child: Row(
-                          children: [
-                            SizedBox(
-                              width: MediaQuery.of(context).size.width - 90,
-                              child: TextField(
-                                controller: messageController,
-                                style: Theme.of(context).textTheme.titleSmall,
-                                decoration: InputDecoration(
-                                    enabled: false,
-                                    hintText:
-                                        'You can only able to read messages',
-                                    hintStyle: Theme.of(context)
-                                        .textTheme
-                                        .titleSmall!
-                                        .copyWith(color: Colors.grey),
-                                    border: InputBorder.none,
-                                    contentPadding:
-                                        EdgeInsets.symmetric(horizontal: 20)),
+                      )
+                    : Padding(
+                        padding: const EdgeInsets.only(
+                            bottom: 32, top: 16.0, left: 16.0, right: 16),
+                        child: Container(
+                          height: 50,
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(32),
+                              boxShadow: [
+                                BoxShadow(
+                                    color: Colors.blue.withOpacity(0.5),
+                                    spreadRadius: 5,
+                                    blurRadius: 7,
+                                    offset: Offset(0, 3))
+                              ]),
+                          child: Row(
+                            children: [
+                              SizedBox(
+                                width: MediaQuery.of(context).size.width - 100,
+                                child: TextField(
+                                  controller: messageController,
+                                  style: Theme.of(context).textTheme.titleSmall,
+                                  decoration: InputDecoration(
+                                      hintText: 'Write your message',
+                                      hintStyle: Theme.of(context)
+                                          .textTheme
+                                          .titleSmall!
+                                          .copyWith(color: Colors.grey),
+                                      border: InputBorder.none,
+                                      contentPadding:
+                                          EdgeInsets.symmetric(horizontal: 20)),
+                                ),
                               ),
-                            ),
-                          ],
+                              SizedBox(
+                                width: 8,
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(16.0),
+                                child: GestureDetector(
+                                    child:
+                                        Image.asset('assets/images/send.png'),
+                                    onTap: () {
+                                      groupMessageReferance
+                                          .sendMessage(
+                                              currentUser!.email.toString(),
+                                              messageController.text,
+                                              widget.groupID)
+                                          .whenComplete(() {
+                                        scrollToBottom();
+                                        messageController.clear();
+                                      });
+                                    }
+                                    // callGeminiModel,
+                                    ),
+                              )
+                            ],
+                          ),
                         ),
                       ),
-                    )
-                  : Padding(
-                      padding: const EdgeInsets.only(
-                          bottom: 32, top: 16.0, left: 16.0, right: 16),
-                      child: Container(
-                        height: 50,
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(32),
-                            boxShadow: [
-                              BoxShadow(
-                                  color: Colors.blue.withOpacity(0.5),
-                                  spreadRadius: 5,
-                                  blurRadius: 7,
-                                  offset: Offset(0, 3))
-                            ]),
-                        child: Row(
-                          children: [
-                            SizedBox(
-                              width: MediaQuery.of(context).size.width - 100,
-                              child: TextField(
-                                controller: messageController,
-                                style: Theme.of(context).textTheme.titleSmall,
-                                decoration: InputDecoration(
-                                    hintText: 'Write your message',
-                                    hintStyle: Theme.of(context)
-                                        .textTheme
-                                        .titleSmall!
-                                        .copyWith(color: Colors.grey),
-                                    border: InputBorder.none,
-                                    contentPadding:
-                                        EdgeInsets.symmetric(horizontal: 20)),
-                              ),
-                            ),
-                            SizedBox(
-                              width: 8,
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(16.0),
-                              child: GestureDetector(
-                                  child: Image.asset('assets/images/send.png'),
-                                  onTap: () {
-                                    groupMessageReferance
-                                        .sendMessage(
-                                            currentUser!.email.toString(),
-                                            messageController.text,
-                                            widget.groupID)
-                                        .whenComplete(() {
-                                      scrollToBottom();
-                                      messageController.clear();
-                                    });
-                                  }
-                                  // callGeminiModel,
-                                  ),
-                            )
-                          ],
-                        ),
-                      ),
-                    ),
-        ],
+          ],
+        ),
       ),
     );
   }

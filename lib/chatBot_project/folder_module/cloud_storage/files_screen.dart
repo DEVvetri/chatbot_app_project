@@ -1,6 +1,7 @@
 // ignore_for_file: depend_on_referenced_packages
 
 import 'dart:io';
+import 'package:chatbot_app_project/chatBot_project/commons.dart';
 import 'package:chatbot_app_project/chatBot_project/folder_module/cloud_storage/myfile_screen.dart';
 import 'package:chatbot_app_project/chatBot_project/folder_module/cloud_storage/sharedwith_screen.dart';
 import 'package:chatbot_app_project/firebase/cloud_folder_service.dart';
@@ -53,10 +54,7 @@ class _FilesScreenState extends State<FilesScreen> {
     folderDocumentID = widget.documentID.id;
     folderName = widget.documentID.get('folder_name');
     createdBy = widget.documentID.get('created_by');
-   
   }
-
-  
 
   Future<void> uploadDocuments(documentFiles) async {
     try {
@@ -271,48 +269,46 @@ class _FilesScreenState extends State<FilesScreen> {
 
   @override
   Widget build(BuildContext context) {
-
     return DefaultTabController(
       length: 2,
       child: Scaffold(
-        floatingActionButton:  FloatingActionButton.extended(
-                label: const Text(
-                  'Files Upload',
-                ),
-                onPressed: () {
-                  documentUploadLoading ? null : pickAndUploadDocuments();
-                },
-              ),
+        floatingActionButton: FloatingActionButton.extended(
+          label: const Text(
+            'Files Upload',
+          ),
+          onPressed: () {
+            documentUploadLoading ? null : pickAndUploadDocuments();
+          },
+        ),
         appBar: AppBar(
             title: Text(folderName),
-           
+            backgroundColor: Commons().blueColor,
             bottom: const PreferredSize(
-                    preferredSize: Size.fromHeight(kToolbarHeight),
-                    child: Align(
-                      alignment: Alignment.centerLeft,
-                      child: TabBar(
-                        indicatorSize: TabBarIndicatorSize.label,
-                        isScrollable: true,
-                        labelPadding: EdgeInsets.only(right: 20, left: 20),
-                        dividerColor: Colors.transparent,
-                        tabs: [
-                          Tab(
-                            child: Text(
-                              'Files',
-                            ),
-                          ),
-                          Tab(
-                            child: Text(
-                              'Shared With',
-                            ),
-                          ),
-                        ],
+              preferredSize: Size.fromHeight(kToolbarHeight),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: TabBar(
+                  indicatorSize: TabBarIndicatorSize.label,
+                  isScrollable: true,
+                  labelPadding: EdgeInsets.only(right: 20, left: 20),
+                  dividerColor: Colors.transparent,
+                  tabs: [
+                    Tab(
+                      child: Text(
+                        'Files',
                       ),
                     ),
-                  )
+                    Tab(
+                      child: Text(
+                        'Shared With',
+                      ),
+                    ),
+                  ],
                 ),
+              ),
+            )),
         body:
-        //  (totalWidth > 1000)
+            //  (totalWidth > 1000)
             // ? Center(
             //     child: Column(
             //       children: [
@@ -348,14 +344,14 @@ class _FilesScreenState extends State<FilesScreen> {
             //       ],
             //     ),
             //   )
-             TabBarView(
-                children: [
-                  SizedBox(
-                      width: 300,
-                      child: MyFilesScreen(documentID: widget.documentID)),
-                  SharedwithScreen(documentID: widget.documentID)
-                ],
-              ),
+            TabBarView(
+          children: [
+            SizedBox(
+                width: 300,
+                child: MyFilesScreen(documentID: widget.documentID)),
+            SharedwithScreen(documentID: widget.documentID)
+          ],
+        ),
       ),
     );
   }

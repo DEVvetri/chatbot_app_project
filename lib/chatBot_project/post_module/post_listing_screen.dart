@@ -1,5 +1,6 @@
 // ignore_for_file: must_be_immutable, library_private_types_in_public_api, deprecated_member_use
 
+import 'package:chatbot_app_project/chatBot_project/commons.dart';
 import 'package:chatbot_app_project/firebase/post_service.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -22,6 +23,8 @@ class _PostListScreenState extends State<PostListScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Commons().blueColor,
+        automaticallyImplyLeading: false,
         title: Text('Posts'),
       ),
       floatingActionButton: FloatingActionButton(
