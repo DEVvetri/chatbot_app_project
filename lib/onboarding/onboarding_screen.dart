@@ -42,6 +42,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
       );
     } else {
       Get.to(() => GetStartedScreen());
+      // Get.to(() => OTPLoginScreen());
     }
   }
 

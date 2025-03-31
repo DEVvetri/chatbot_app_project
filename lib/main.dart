@@ -1,6 +1,7 @@
 // ignore_for_file: library_private_types_in_public_api, sort_child_properties_last
 
 import 'package:chatbot_app_project/auth/checking_auth.dart';
+import 'package:chatbot_app_project/dragable-ui/controller_drag.dart';
 import 'package:chatbot_app_project/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -8,7 +9,11 @@ import 'package:get/get.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  Get.put(TaskController());
+
   runApp(const MyApp());
 }
 

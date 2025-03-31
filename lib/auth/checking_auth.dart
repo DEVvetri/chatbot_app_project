@@ -1,3 +1,6 @@
+// ignore_for_file: unused_local_variable
+
+import 'package:chatbot_app_project/chatBot_project/initial_test_module/welcome_text_screen.dart';
 import 'package:chatbot_app_project/chatBot_project/navigation_section/main_app_navigation.dart';
 import 'package:chatbot_app_project/onboarding/onboarding_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -13,38 +16,44 @@ class CheckingAuth extends StatefulWidget {
 
 class _CheckingAuthState extends State<CheckingAuth> {
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: StreamBuilder<User?>(
         stream: FirebaseAuth.instance.authStateChanges(),
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
+        builder: (context, authSnapshot) {
+          if (authSnapshot.hasData) {
             return FutureBuilder<QuerySnapshot>(
               future: FirebaseFirestore.instance
                   .collection('Users')
-                  .where('email', isEqualTo: snapshot.data!.email)
+                  .where('email', isEqualTo: authSnapshot.data!.email)
                   .limit(1)
                   .get(),
-              builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-                if (snapshot.connectionState == ConnectionState.done) {
-                  if (snapshot.data != null && snapshot.data!.docs.isNotEmpty) {
-                    Map<String, dynamic> userData = snapshot.data!.docs.first
-                        .data() as Map<String, dynamic>;
-                    String role = userData['role'];
-                    if (role == 'Student') {
-                      return MainAppNavigation();
-                    } else if (role == 'Teacher') {
-                      return const MainAppNavigation();
-                    } else if (role == 'Parents') {
-                      return const MainAppNavigation();
+              builder: (context, userSnapshot) {
+                if (userSnapshot.connectionState == ConnectionState.done) {
+                  if (userSnapshot.data != null && userSnapshot.data!.docs.isNotEmpty) {
+                    Map<String, dynamic> userData =
+                        userSnapshot.data!.docs.first.data() as Map<String, dynamic>;
+                    
+                    bool isStarts = userData['isStarts'] ?? false;
+                    String role = userData['role'] ?? '';
+
+                    if (!isStarts) {
+                      return const WelcomingTestScreen(); 
                     }
+
+                    return MainAppNavigation(); 
                   } else {
                     return const OnboardingScreen();
                   }
-                } else if (snapshot.hasError) {
-                  return Center(child: Text('Error: ${snapshot.error}'));
+                } else if (userSnapshot.hasError) {
+                  return Center(child: Text('Error: ${userSnapshot.error}'));
                 }
-                return const OnboardingScreen();
+                return const Center(child: CircularProgressIndicator());
               },
             );
           } else {

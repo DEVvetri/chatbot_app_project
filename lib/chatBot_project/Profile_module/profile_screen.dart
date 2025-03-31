@@ -1,10 +1,13 @@
 // ignore_for_file: deprecated_member_use, unused_local_variable, use_super_parameters
 
+import 'package:chatbot_app_project/chatBot_project/Profile_module/follower_listing_scrren.dart';
 import 'package:chatbot_app_project/chatBot_project/Profile_module/profile_edit_screen.dart';
 import 'package:chatbot_app_project/chatBot_project/commons.dart';
+import 'package:chatbot_app_project/onboarding/onboarding_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get/route_manager.dart';
 import 'package:intl/intl.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -17,7 +20,9 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
   bool isprivate = false;
   bool pushNotification = true;
+
   final currentUser = FirebaseAuth.instance.currentUser!;
+
   Future<void> getDoctOfUser() async {
     final doc = await FirebaseFirestore.instance
         .collection('Users')
@@ -36,10 +41,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   late DocumentSnapshot userData;
+
   @override
   void initState() {
     super.initState();
     getDoctOfUser();
+  }
+
+  Future<void> signOut() async {
+    Get.back();
+    await FirebaseAuth.instance.signOut();
+    Get.offAll(() => OnboardingScreen());
+    ScaffoldMessenger.of(context)
+        .showSnackBar(const SnackBar(content: Text('Log out successfully.')));
   }
 
   @override
@@ -89,16 +103,28 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            CardFb1(
-                                text: "Follower",
-                                userdata: userData['followers']),
-                            CardFb1(
-                                text: "Following",
-                                userdata: userData['following'])
+                            GestureDetector(
+                              onTap: () {
+                                Get.to(() => FollowerListingScreen(
+                                    userDocid: userData['id'],
+                                    tag: 'followers'));
+                              },
+                              child: CardFb1(
+                                  text: "Follower",
+                                  userdata: userData['followers']),
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                Get.to(() => FollowerListingScreen(
+                                    userDocid: userData['id'],
+                                    tag: 'following'));
+                              },
+                              child: CardFb1(
+                                  text: "Following",
+                                  userdata: userData['following']),
+                            )
                           ],
-                        )
-                        
-                        ,
+                        ),
                         SizedBox(
                           height: 8,
                         ),
@@ -254,6 +280,152 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             ),
                           ],
                         ),
+                        Card(
+                          color: Commons().blueColor,
+                          child: Column(
+                            children: [
+                              ListTile(
+                                onTap: () {},
+                                leading: Icon(
+                                  Icons.settings,
+                                  color: Colors.black,
+                                ),
+                                title: Text(
+                                  "Support",
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                                trailing: Icon(
+                                  Icons.chevron_right,
+                                  color: Colors.black,
+                                ),
+                              ),
+                              Container(
+                                decoration: BoxDecoration(
+                                    color: Colors.redAccent.shade100,
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(10))),
+                                child: ListTile(
+                                  onTap: () {
+                                    showDialog(
+                                      context: context,
+                                      builder: (context) => AlertDialog(
+                                        backgroundColor: Colors.blue.shade50,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(16),
+                                        ),
+                                        title: Row(
+                                          children: [
+                                            Icon(
+                                              Icons.warning_amber_rounded,
+                                              color: Colors.black,
+                                            ),
+                                            const SizedBox(width: 8),
+                                            Text(
+                                              "Logout",
+                                              style: TextStyle(
+                                                fontSize: 18,
+                                                fontWeight: FontWeight.bold,
+                                                color: Colors.blue.shade900,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        content: Text(
+                                          "Are you sure you want to logout?",
+                                          style: TextStyle(
+                                            fontSize: 16,
+                                            color: Colors.blue.shade800,
+                                          ),
+                                        ),
+                                        actions: [
+                                          TextButton(
+                                            style: ButtonStyle(
+                                              shape: WidgetStateProperty.all(
+                                                RoundedRectangleBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(16),
+                                                ),
+                                              ),
+                                            ),
+                                            onPressed: () => Get.back(),
+                                            child: Row(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                Icon(
+                                                  Icons.close,
+                                                  color: Colors.blue.shade800,
+                                                  size: 18,
+                                                ),
+                                                const SizedBox(width: 4),
+                                                Text(
+                                                  "No",
+                                                  style: TextStyle(
+                                                    fontSize: 16,
+                                                    color: Colors.blue.shade800,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          ElevatedButton(
+                                            style: ElevatedButton.styleFrom(
+                                              backgroundColor:
+                                                  Colors.blue.shade600,
+                                              foregroundColor: Colors.white,
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(16),
+                                              ),
+                                            ),
+                                            onPressed: () {
+                                              signOut();
+                                            },
+                                            child: Row(
+                                              mainAxisSize: MainAxisSize.min,
+                                              children: [
+                                                Icon(
+                                                  Icons.check,
+                                                  size: 18,
+                                                ),
+                                                const SizedBox(width: 4),
+                                                Text(
+                                                  "Yes",
+                                                  style:
+                                                      TextStyle(fontSize: 16),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    );
+                                  },
+                                  leading: Icon(
+                                    Icons.exit_to_app,
+                                    color: Colors.black,
+                                  ),
+                                  title: Text(
+                                    "Logout",
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                  trailing: Icon(
+                                    Icons.chevron_right,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        )
                       ],
                     ),
                   );
@@ -266,16 +438,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
 }
 
 class CircleAvatarWithTransition extends StatelessWidget {
-  /// the base color of the images background and its concentric circles.
   final Color primaryColor;
 
-  /// the profile image to be displayed.
   final ImageProvider image;
 
-  ///the diameter of the entire widget, including the concentric circles.
   final double size;
 
-  /// the width between the edges of each concentric circle.
   final double transitionBorderwidth;
 
   const CircleAvatarWithTransition(

@@ -5,8 +5,13 @@ import 'dart:ui';
 import 'package:chatbot_app_project/chatBot_project/chating_module/message/group_screen.dart';
 import 'package:chatbot_app_project/chatBot_project/commons.dart';
 import 'package:chatbot_app_project/chatBot_project/games_modules/games_listing_screen.dart';
+import 'package:chatbot_app_project/chatBot_project/learning_module/learning_listing.dart';
+import 'package:chatbot_app_project/chatBot_project/questions_domain_manager_module/domains_listing_screen.dart';
 import 'package:chatbot_app_project/chatbotServer/chat_UI_screen.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -17,6 +22,41 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  String userEmail = FirebaseAuth.instance.currentUser?.email ?? "";
+  late DocumentSnapshot? userDocId;
+  bool isStudent = true;
+  Future<String?> getUserDocId(String userEmail) async {
+    try {
+      QuerySnapshot querySnapshot = await FirebaseFirestore.instance
+          .collection('Users')
+          .where('email', isEqualTo: userEmail)
+          .limit(1)
+          .get();
+
+      if (querySnapshot.docs.isNotEmpty) {
+        setState(() {
+          userDocId = querySnapshot.docs.first;
+
+          isStudent = userDocId!.get('role') == 'Student';
+        });
+      } else {
+        setState(() {
+          userDocId = null;
+        });
+      }
+    } catch (e) {
+      print("Error getting userDocid: $e");
+      return null;
+    }
+    return null;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    getUserDocId(userEmail);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -62,6 +102,22 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ),
                 ),
+                if (!isStudent)
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Card.filled(
+                      color: Commons().blueColor,
+                      child: ListTile(
+                        title: Text("Test-Question module"),
+                        subtitle: Text("add/update questions here"),
+                        trailing: IconButton(
+                            onPressed: () {
+                              Get.to(() => DomainsListScreen());
+                            },
+                            icon: Icon(Icons.open_in_new)),
+                      ),
+                    ),
+                  )
               ],
             ),
           ),
@@ -251,74 +307,80 @@ class _HomeScreenState extends State<HomeScreen> {
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(12.0),
-          child: Stack(
-            children: [
-              BackdropFilter(
-                filter: ImageFilter.blur(sigmaX: 25.0, sigmaY: 25.0),
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Colors.black.withOpacity(1),
-                    borderRadius: BorderRadius.circular(12.0),
-                    border: Border.all(
-                      color: Colors.white.withOpacity(0.125),
-                      width: 1.0,
+        child: GestureDetector(
+          onTap: () {
+            Get.to(() => LearningListingScreen());
+          },
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(12.0),
+            child: Stack(
+              children: [
+                BackdropFilter(
+                  filter: ImageFilter.blur(sigmaX: 25.0, sigmaY: 25.0),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.black.withOpacity(1),
+                      borderRadius: BorderRadius.circular(12.0),
+                      border: Border.all(
+                        color: Colors.white.withOpacity(0.125),
+                        width: 1.0,
+                      ),
                     ),
                   ),
                 ),
-              ),
-              Center(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    SizedBox(
-                      height: 5,
-                    ),
-                    Container(
-                      width: 60,
-                      height: 60,
-                      decoration: BoxDecoration(
-                          color: Commons().blueColor.withAlpha(30),
-                          borderRadius: BorderRadius.all(Radius.circular(100))),
-                      child: Icon(
-                        Iconsax.image,
-                        size: 30,
-                        color: Commons().blueColor,
+                Center(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      SizedBox(
+                        height: 5,
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 10),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Learning Flow',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 10),
-                            child: Text(
-                              'flow tap to move',
+                      Container(
+                        width: 60,
+                        height: 60,
+                        decoration: BoxDecoration(
+                            color: Commons().blueColor.withAlpha(30),
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(100))),
+                        child: Icon(
+                          Iconsax.image,
+                          size: 30,
+                          color: Commons().blueColor,
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 10),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Learning Flow',
                               style: TextStyle(
                                 color: Colors.white,
-                                fontSize: 12,
+                                fontSize: 18,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
-                          ),
-                        ],
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 10),
+                              child: Text(
+                                'flow tap to move',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 12,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
