@@ -52,9 +52,12 @@ dependencies:
   audioplayers: ^6.1.0
   url_launcher: ^6.3.1
   photo_view: ^0.15.0
-  google_generative_ai: ^0.0.1-dev
   intl: ^0.19.0
-
+  video_player: ^2.9.2
+  firebase_messaging: ^15.2.2
+  flutter_gemini: ^3.0.0
+  carousel_slider: ^5.0.0
+  lottie: ^3.0.0
 
 dev_dependencies:
   flutter_test:
@@ -82,6 +85,23 @@ flutter:
     - assets/images/
     - assets/images/gpt-robot.png
     - assets/images/send.png
+    - assets/videos/softwaredevelopment.mp4
+    - assets/videos/appdevelopment.mp4
+    - assets/videos/webdevelopment.mp4
+    - assets/videos/datascience.mp4
+    - assets/videos/cybersecurity.mp4
+    - assets/videos/artificialintelligence.mp4
+    - assets/videos/devops.mp4
+    - assets/videos/flutter.mp4
+    - assets/videos/react.mp4
+    - assets/videos/angular.mp4
+    - assets/videos/vue.mp4
+    - assets/videos/blockchain.mp4
+    - assets/videos/iot.mp4
+    - assets/lotties/carrer.json
+    - assets/lotties/education.json
+    - assets/lotties/life.json
+
   #   - images/a_dot_ham.jpeg
 
   # An image asset can refer to one or more resolution-specific "variants", see
