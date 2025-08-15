@@ -10,7 +10,7 @@ class ChatController extends GetxController {
   var isLoading = false.obs;
 
   final TextEditingController messageController = TextEditingController();
-  final String apiKey = "AIzaSyDsvXbunACMLCU19rWDDa-lrF1DSK6x5Lo";
+  final String apiKey = "";
   late final Gemini gemini;
 
   @override
