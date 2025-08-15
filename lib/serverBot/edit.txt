@@ -1,0 +1,112 @@
+## Software Development
+1. If the user says "I want to learn software development", respond with "Software development involves building, testing, and maintaining software systems. Here's a roadmap to get you started:
+    * Programming languages: Python, Java, C++, JavaScript
+    * Development frameworks: Spring, Django, React, Angular
+    * Databases: MySQL, MongoDB, PostgreSQL
+    * Version control: Git, SVN
+    * Agile methodologies: Scrum, Kanban"
+
+## App Development
+2. If the user says "I want to learn app development", respond with "App development involves building mobile applications for Android and iOS devices. Here's a roadmap to get you started:
+    * Programming languages: Java, Swift, Kotlin, React Native
+    * Development frameworks: Android Studio, Xcode, Flutter
+    * Databases: Firebase, Realm
+    * Design principles: Material Design, Human Interface Guidelines"
+
+## Web Development
+3. If the user says "I want to learn web development", respond with "Web development involves building websites and web applications. Here's a roadmap to get you started:
+    * Programming languages: HTML, CSS, JavaScript, PHP
+    * Development frameworks: React, Angular, Vue.js
+    * Databases: MySQL, MongoDB, PostgreSQL
+    * Version control: Git, SVN
+    * Design principles: Responsive Web Design, Accessibility"
+
+## Data Science
+4. If the user says "I want to learn data science", respond with "Data science involves extracting insights from data using statistical and computational methods. Here's a roadmap to get you started:
+    * Programming languages: Python, R, SQL
+    * Data analysis libraries: Pandas, NumPy, Matplotlib
+    * Machine learning libraries: Scikit-learn, TensorFlow
+    * Data visualization tools: Tableau, Power BI
+    * Statistics and probability: Hypothesis testing, Confidence intervals"
+
+## Cyber Security
+5. If the user says "I want to learn cyber security", respond with "Cyber security involves protecting computer systems and networks from cyber threats. Here's a roadmap to get you started:
+    * Security frameworks: NIST, ISO 27001
+    * Threat analysis: Risk assessment, Vulnerability scanning
+    * Security protocols: SSL/TLS, Firewall configuration
+    * Incident response: Disaster recovery, Forensic analysis
+    * Security certifications: CompTIA Security+, CISSP"
+
+## Artificial Intelligence
+6. c
+## Cloud Computing
+7. If the user says "I want to learn cloud computing", respond with "Cloud computing involves delivering computing resources over the internet. Here's a roadmap to get you started:
+    * Cloud providers: AWS, Azure, Google Cloud
+    * Cloud services: IaaS, PaaS, SaaS
+    * Cloud security: Identity and access management, Data encryption
+    * Cloud migration: Application migration, Data migration
+    * Cloud certifications: AWS Certified Cloud Practitioner, Azure Certified Cloud Solutions Architect"
+
+## DevOps
+8. If the user says "I want to learn DevOps", respond with "DevOps involves bridging the gap between development and operations teams. Here's a roadmap to get you started:
+    * DevOps tools: Jenkins, Docker, Kubernetes
+    * Agile methodologies: Scrum, Kanban
+    * Continuous integration: CI/CD pipelines
+    * Continuous monitoring: Logging, Monitoring
+    * DevOps certifications: DevOps Foundation Certification, Certified Scrum Master"
+
+## Flutter
+9. If the user says "I want to learn Flutter", respond with "Flutter involves building natively compiled applications for mobile, web, and desktop. Here's a roadmap to get you started:
+    * Programming language: Dart
+    * Flutter framework: Flutter SDK
+    * UI components: Widgets, Layouts
+    * State management: Provider, Riverpod
+    * Networking: HTTP, WebSocket"
+Here is the rest of the updated predefined_rules:
+
+# React
+10. If the user says "I want to learn React", respond with "React involves building reusable UI components for web applications. Here's a roadmap to get you started:
+    - Programming language: JavaScript
+    - React framework: React Library
+    - UI components: JSX, Components
+    - State management: Redux, Context API
+    - Routing: React Router"
+
+# Angular
+11. If the user says "I want to learn Angular", respond with "Angular involves building complex web applications using a opinionated framework. Here's a roadmap to get you started:
+    - Programming language: TypeScript
+    - Angular framework: Angular CLI
+    - UI components: Components, Templates
+    - State management: Services, Observables
+    - Routing: Angular Router"
+
+# Vue.js
+12. If the user says "I want to learn Vue.js", respond with "Vue.js involves building progressive and flexible web applications. Here's a roadmap to get you started:
+    - Programming language: JavaScript
+    - Vue.js framework: Vue CLI
+    - UI components: Components, Templates
+    - State management: Vuex, Vue Router
+    - Routing: Vue Router"
+
+# Blockchain
+13. If the user says "I want to learn blockchain", respond with "Blockchain involves building decentralized and secure networks using distributed ledger technology. Here's a roadmap to get you started:
+    - Programming language: Solidity, JavaScript
+    - Blockchain platforms: Ethereum, Hyperledger Fabric
+    - Smart contracts: ERC-20, ERC-721
+    - Cryptography: Hash functions, Digital signatures
+    - Blockchain certifications: Certified Blockchain Developer, Blockchain Council"
+
+# Internet of Things (IoT)
+14. If the user says "I want to learn IoT", respond with "IoT involves building connected devices and networks that interact with the physical world. Here's a roadmap to get you started:
+    - Programming language: C, Python, JavaScript
+    - IoT platforms: Arduino, Raspberry Pi
+    - Sensors and actuators: Temperature sensors, LED lights
+    - Communication protocols: HTTP, MQTT, CoAP
+    - IoT certifications: Certified IoT Developer, IoT Council"
+
+If the input doesn't match any rule, generate a helpful and relevant response dynamically.
+
+"""
+
+
+Note that this is not an exhaustive list, and you may want to add more domains and roadmaps depending on your specific use case. Additionally, you'll want to customize the responses to fit your chatbot's tone and style.

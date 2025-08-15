@@ -1,4 +1,7 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
@@ -8,7 +11,8 @@ class DomainSelectionController extends GetxController {
   var filteredDomains = <String>[].obs;
 
   var interestedDomains = <String>[].obs;
-
+  final List<String> levelList = ['Low', 'Medium', 'High'];
+  var selectedLevel = 'Low'.obs;
   final List<String> availableDomains = [
     "software development",
     "app development",
@@ -33,7 +37,29 @@ class DomainSelectionController extends GetxController {
     }
   }
 
-  Future<void> updateProfile(String userDocid, BuildContext context) async {
+  Future<String?> getCurrentUserDocId() async {
+    try {
+      String? myemail = FirebaseAuth.instance.currentUser!.email;
+
+      final snapshot = await FirebaseFirestore.instance
+          .collection('Users')
+          .where('email', isEqualTo: myemail ?? '')
+          .limit(1)
+          .get();
+
+      if (snapshot.docs.isNotEmpty) {
+        return snapshot.docs.first.id;
+      } else {
+        print("No document found user");
+        return null;
+      }
+    } catch (e) {
+      print("Error getting doc ID: $e");
+      return null;
+    }
+  }
+
+  Future<void> updateProfile(BuildContext context) async {
     if (selectedDomain.value.isEmpty) {
       ScaffoldMessenger.of(context).showMaterialBanner(
         MaterialBanner(
@@ -74,42 +100,35 @@ class DomainSelectionController extends GetxController {
     }
 
     try {
-      await FirebaseFirestore.instance
-          .collection('Users')
-          .doc(userDocid)
-          .update({
+      String? userid = await getCurrentUserDocId();
+      print(userid ?? '');
+
+      await FirebaseFirestore.instance.collection('Users').doc(userid).update({
         'selectedDomain': selectedDomain.value,
-        'interestedDomains': interestedDomains,
+        'interestedDomains': interestedDomains.toList(),
+        'levelOfDifficulty': selectedLevel.value
       });
-      ScaffoldMessenger.of(context).showMaterialBanner(
-        MaterialBanner(
-          content: Text("Profile updated successfully!"),
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Domain details updated'),
+          duration: Duration(seconds: 1),
+          behavior: SnackBarBehavior.floating,
           backgroundColor: Colors.green,
-          actions: [
-            TextButton(
-              onPressed: () {
-                ScaffoldMessenger.of(context).hideCurrentMaterialBanner();
-              },
-              child:
-                  const Text("DISMISS", style: TextStyle(color: Colors.white)),
-            ),
-          ],
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
         ),
       );
     } catch (e) {
-      ScaffoldMessenger.of(context).showMaterialBanner(
-        MaterialBanner(
-          content: Text("Failed to update profile: $e"),
-          backgroundColor: Colors.red,
-          actions: [
-            TextButton(
-              onPressed: () {
-                ScaffoldMessenger.of(context).hideCurrentMaterialBanner();
-              },
-              child:
-                  const Text("DISMISS", style: TextStyle(color: Colors.white)),
-            ),
-          ],
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Domain details failed $e'),
+          duration: Duration(seconds: 2),
+          behavior: SnackBarBehavior.floating,
+          backgroundColor: Colors.redAccent,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+          ),
         ),
       );
     }
@@ -134,4 +153,3 @@ class DomainSelectionController extends GetxController {
     interestedDomains.remove(domain);
   }
 }
-

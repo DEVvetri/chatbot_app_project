@@ -57,11 +57,9 @@ class _WelcomingTestScreenState extends State<WelcomingTestScreen> {
         curve: Curves.ease,
       );
     } else {
-      userData.get('isStarts')
-          ? {}
-          : Get.to(() => DomainSelectionScreen(
-                userid: userData.id,
-              ));
+      userData.get('isStarts') ? {} : Get.to(() => DomainSelectionScreen(
+          // userid: userData.id,
+          ));
     }
   }
 
@@ -1571,7 +1569,7 @@ class _WelcomingTestScreenState extends State<WelcomingTestScreen> {
                       TextButton(
                         onPressed: () {
                           Get.to(() => MainAppNavigation());
-
+                          
                           // _pageController.animateToPage(
                           //   _welcomingContent.length - 1, // Move to the last page
                           //   duration: const Duration(milliseconds: 500),

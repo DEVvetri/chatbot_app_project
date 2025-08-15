@@ -1,14 +1,11 @@
-from flask import Flask, request, jsonify
 import cohere
 
-app = Flask(__name__)
-
 # Initialize the Cohere client
-co = cohere.Client(api_key="LTdCzgQQkSoPoIzgKRwhd5kRQLxvXnEW9i1SuhuR") 
+client = cohere.Client(api_key="LTdCzgQQkSoPoIzgKRwhd5kRQLxvXnEW9i1SuhuR")  # Replace with your actual API key
 
 # Define rules as part of the model prompt
 predefined_rules = """
-You are a helpful and knowledgeable chatbot named AURAMEMO.AI. Your task is to answer user questions based on predefined rules and provide dynamic answers if the input doesn't match any rule.
+You are a helpful and knowledgeable chatbot named AURAMEMO.AI.You were developed/owner by vetrivel software developer. Your task is to answer user questions based on predefined rules and provide dynamic answers if the input doesn't match any rule.
 
 Rules:
 1. If the user says "hi", respond with "Hello there! This is AURAMEMO.AI. How can I assist you?"
@@ -119,30 +116,34 @@ Rules:
     - Communication protocols: HTTP, MQTT, CoAP
     - IoT certifications: Certified IoT Developer, IoT Council"
 
-
+If the input is "i want to learn ..." then you have to give detailed explaination and ask are you ready to learn "respective domain" and reply input is yes then give list of topics to learn
 If the input doesn't match any of the rules, generate a helpful and relevant response dynamically.
 """
 
-@app.route('/chat', methods=['POST'])
-def chat():
-    data = request.json
-    user_input = data.get('message', '')
-    chat_history = data.get('chat_history', [])
+# Terminal chatbot function
+def main():
+    print("Welcome to AURAMEMO.AI! (Type 'exit' to quit the chat)")
+    while True:
+        user_input = input("You: ").strip()
+        if user_input.lower() == "exit":
+            print("AURAMEMO.AI: Goodbye! Have a great day!")
+            break
 
-    # Call Cohere API
-    response = co.chat(
-        model='command-r-08-2024',
-        message=user_input,
-        temperature=0.3,
-        chat_history=chat_history,
-        preamble=predefined_rules,
-        prompt_truncation='AUTO'
-    )
+        if not user_input:
+            print("AURAMEMO.AI: Please provide a valid input!")
+            continue
 
-    # Return response
-    return jsonify({
-        'response': response.text
-    })
+        # Chat request to Cohere API
+        try:
+            response = client.chat(
+                message=user_input,
+                model="command-r-08-2024",
+                preamble=predefined_rules
+            )
+            print(f"AURAMEMO.AI: {response.text}")
+        except Exception as e:
+            print(f"Error: {e}")
+            break
 
-if __name__ == '__main__':
-    app.run(debug=True)
+if __name__ == "__main__":
+    main()

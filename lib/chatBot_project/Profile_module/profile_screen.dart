@@ -2,7 +2,11 @@
 
 import 'package:chatbot_app_project/chatBot_project/Profile_module/follower_listing_scrren.dart';
 import 'package:chatbot_app_project/chatBot_project/Profile_module/profile_edit_screen.dart';
+import 'package:chatbot_app_project/chatBot_project/Profile_module/profile_info_component.dart';
 import 'package:chatbot_app_project/chatBot_project/commons.dart';
+import 'package:chatbot_app_project/chatBot_project/leaderboard_module/stage_board_screen.dart';
+import 'package:chatbot_app_project/chatBot_project/reward_module/reward_main_sreen.dart';
+import 'package:chatbot_app_project/chatBot_project/test_result_module/test_result_listing_scren.dart';
 import 'package:chatbot_app_project/onboarding/onboarding_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -128,162 +132,152 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         SizedBox(
                           height: 8,
                         ),
-                        Center(
-                          child: OutlinedButton.icon(
-                            style: ElevatedButton.styleFrom(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(16),
-                              ),
-                            ),
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => ProfileEditScreen(
-                                    docId: userData['id'],
-                                  ),
-                                ),
-                              );
-                            },
-                            icon: const Icon(Icons.edit),
-                            label: const Text("Edit Profile"),
-                          ),
-                        ),
-                        SizedBox(height: 10),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              'Name:',
-                              style: TextStyle(
-                                  fontSize: 18, fontWeight: FontWeight.bold),
-                            ),
-                            Text(
-                              userData['name'],
-                              style: TextStyle(
-                                  fontSize: 18, fontWeight: FontWeight.bold),
-                              textAlign: TextAlign.right,
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: 10),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              'Email:',
-                              style: TextStyle(
-                                  fontSize: 18, fontWeight: FontWeight.bold),
-                            ),
-                            Text(
-                              userData['email'],
-                              style: TextStyle(fontSize: 16),
-                              textAlign: TextAlign.right,
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: 10),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              'Contact:',
-                              style: TextStyle(
-                                  fontSize: 18, fontWeight: FontWeight.bold),
-                            ),
-                            Text(
-                              userData['contact_number'],
-                              style: TextStyle(fontSize: 16),
-                              textAlign: TextAlign.right,
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: 10),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              'Gender:',
-                              style: TextStyle(
-                                  fontSize: 18, fontWeight: FontWeight.bold),
-                            ),
-                            Text(
-                              userData['gender'],
-                              style: TextStyle(fontSize: 16),
-                              textAlign: TextAlign.right,
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: 10),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              'Role:',
-                              style: TextStyle(
-                                  fontSize: 18, fontWeight: FontWeight.bold),
-                            ),
-                            Text(
-                              userData['role'],
-                              style: TextStyle(fontSize: 16),
-                              textAlign: TextAlign.right,
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: 10),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              'Private Account:',
-                              style: TextStyle(
-                                  fontSize: 18, fontWeight: FontWeight.bold),
-                            ),
-                            Text(
-                              userData['private'] ? "Yes" : "No",
-                              style: TextStyle(fontSize: 16),
-                              textAlign: TextAlign.right,
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: 20),
-                        Divider(),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              'Created At:',
-                              style: TextStyle(
-                                  fontSize: 18, fontWeight: FontWeight.bold),
-                            ),
-                            Text(
-                              convertTimestampToTimeString(
-                                  userData['created_at']),
-                              style: TextStyle(fontSize: 14),
-                              textAlign: TextAlign.right,
-                            ),
-                          ],
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              'Updated At:',
-                              style: TextStyle(
-                                  fontSize: 18, fontWeight: FontWeight.bold),
-                            ),
-                            Text(
-                              convertTimestampToTimeString(
-                                  userData['updated_at']),
-                              style: TextStyle(fontSize: 14),
-                              textAlign: TextAlign.right,
-                            ),
-                          ],
-                        ),
                         Card(
-                          color: Commons().blueColor,
+                          color: Commons().whiteColor,
                           child: Column(
                             children: [
+                              ListTile(
+                                onTap: () {
+                                  Get.to(() => ProfileInfoComponent());
+                                },
+                                leading: Icon(
+                                  Icons.person_2_outlined,
+                                  color: Colors.black,
+                                ),
+                                title: Text(
+                                  "Profile Info",
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                                trailing: Icon(
+                                  Icons.chevron_right,
+                                  color: Colors.black,
+                                ),
+                              ),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 20),
+                                child: Divider(
+                                  color: Colors.black,
+                                ),
+                              ),
+                              ListTile(
+                                onTap: () {
+                                  Get.to(() => ProfileEditScreen(
+                                        docId: userData['id'],
+                                      ));
+                                },
+                                leading: Icon(
+                                  Icons.person_2,
+                                  color: Colors.black,
+                                ),
+                                title: Text(
+                                  "Profile Edit",
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                                trailing: Icon(
+                                  Icons.chevron_right,
+                                  color: Colors.black,
+                                ),
+                              ),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 20),
+                                child: Divider(
+                                  color: Colors.black,
+                                ),
+                              ),
+                              ListTile(
+                                onTap: () {
+                                  Get.to(() => LeaderBoardMainScreen());
+                                },
+                                leading: Icon(
+                                  Icons.analytics,
+                                  color: Colors.black,
+                                ),
+                                title: Text(
+                                  "LeaderBoard",
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                                trailing: Icon(
+                                  Icons.chevron_right,
+                                  color: Colors.black,
+                                ),
+                              ),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 20),
+                                child: Divider(
+                                  color: Colors.black,
+                                ),
+                              ),
+                              ListTile(
+                                onTap: () {
+                                  Get.to(() => TestResultsListingScreen());
+                                },
+                                leading: Icon(
+                                  Icons.analytics_outlined,
+                                  color: Colors.black,
+                                ),
+                                title: Text(
+                                  "Test Results",
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                                trailing: Icon(
+                                  Icons.chevron_right,
+                                  color: Colors.black,
+                                ),
+                              ),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 20),
+                                child: Divider(
+                                  color: Colors.black,
+                                ),
+                              ),
+                              ListTile(
+                                onTap: () {
+                                  Get.to(() => RewardMainSreen());
+                                },
+                                leading: Icon(
+                                  Icons.analytics,
+                                  color: Colors.black,
+                                ),
+                                title: Text(
+                                  "Rewards",
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                                trailing: Icon(
+                                  Icons.chevron_right,
+                                  color: Colors.black,
+                                ),
+                              ),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 20),
+                                child: Divider(
+                                  color: Colors.black,
+                                ),
+                              ),
                               ListTile(
                                 onTap: () {},
                                 leading: Icon(
@@ -303,124 +297,123 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   color: Colors.black,
                                 ),
                               ),
-                              Container(
-                                decoration: BoxDecoration(
-                                    color: Colors.redAccent.shade100,
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(10))),
-                                child: ListTile(
-                                  onTap: () {
-                                    showDialog(
-                                      context: context,
-                                      builder: (context) => AlertDialog(
-                                        backgroundColor: Colors.blue.shade50,
-                                        shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(16),
-                                        ),
-                                        title: Row(
-                                          children: [
-                                            Icon(
-                                              Icons.warning_amber_rounded,
-                                              color: Colors.black,
-                                            ),
-                                            const SizedBox(width: 8),
-                                            Text(
-                                              "Logout",
-                                              style: TextStyle(
-                                                fontSize: 18,
-                                                fontWeight: FontWeight.bold,
-                                                color: Colors.blue.shade900,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                        content: Text(
-                                          "Are you sure you want to logout?",
-                                          style: TextStyle(
-                                            fontSize: 16,
-                                            color: Colors.blue.shade800,
+                              Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 20),
+                                child: Divider(
+                                  color: Colors.black,
+                                ),
+                              ),
+                              ListTile(
+                                onTap: () {
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) => AlertDialog(
+                                      backgroundColor: Colors.blue.shade50,
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(16),
+                                      ),
+                                      title: Row(
+                                        children: [
+                                          Icon(
+                                            Icons.warning_amber_rounded,
+                                            color: Colors.black,
                                           ),
-                                        ),
-                                        actions: [
-                                          TextButton(
-                                            style: ButtonStyle(
-                                              shape: WidgetStateProperty.all(
-                                                RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(16),
-                                                ),
-                                              ),
-                                            ),
-                                            onPressed: () => Get.back(),
-                                            child: Row(
-                                              mainAxisSize: MainAxisSize.min,
-                                              children: [
-                                                Icon(
-                                                  Icons.close,
-                                                  color: Colors.blue.shade800,
-                                                  size: 18,
-                                                ),
-                                                const SizedBox(width: 4),
-                                                Text(
-                                                  "No",
-                                                  style: TextStyle(
-                                                    fontSize: 16,
-                                                    color: Colors.blue.shade800,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                          ElevatedButton(
-                                            style: ElevatedButton.styleFrom(
-                                              backgroundColor:
-                                                  Colors.blue.shade600,
-                                              foregroundColor: Colors.white,
-                                              shape: RoundedRectangleBorder(
-                                                borderRadius:
-                                                    BorderRadius.circular(16),
-                                              ),
-                                            ),
-                                            onPressed: () {
-                                              signOut();
-                                            },
-                                            child: Row(
-                                              mainAxisSize: MainAxisSize.min,
-                                              children: [
-                                                Icon(
-                                                  Icons.check,
-                                                  size: 18,
-                                                ),
-                                                const SizedBox(width: 4),
-                                                Text(
-                                                  "Yes",
-                                                  style:
-                                                      TextStyle(fontSize: 16),
-                                                ),
-                                              ],
+                                          const SizedBox(width: 8),
+                                          Text(
+                                            "Logout",
+                                            style: TextStyle(
+                                              fontSize: 18,
+                                              fontWeight: FontWeight.bold,
+                                              color: Colors.blue.shade900,
                                             ),
                                           ),
                                         ],
                                       ),
-                                    );
-                                  },
-                                  leading: Icon(
-                                    Icons.exit_to_app,
-                                    color: Colors.black,
-                                  ),
-                                  title: Text(
-                                    "Logout",
-                                    style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.black,
+                                      content: Text(
+                                        "Are you sure you want to logout?",
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                          color: Colors.blue.shade800,
+                                        ),
+                                      ),
+                                      actions: [
+                                        TextButton(
+                                          style: ButtonStyle(
+                                            shape: WidgetStateProperty.all(
+                                              RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(16),
+                                              ),
+                                            ),
+                                          ),
+                                          onPressed: () => Get.back(),
+                                          child: Row(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              Icon(
+                                                Icons.close,
+                                                color: Colors.blue.shade800,
+                                                size: 18,
+                                              ),
+                                              const SizedBox(width: 4),
+                                              Text(
+                                                "No",
+                                                style: TextStyle(
+                                                  fontSize: 16,
+                                                  color: Colors.blue.shade800,
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        ElevatedButton(
+                                          style: ElevatedButton.styleFrom(
+                                            backgroundColor:
+                                                Colors.blue.shade600,
+                                            foregroundColor: Colors.white,
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(16),
+                                            ),
+                                          ),
+                                          onPressed: () {
+                                            signOut();
+                                          },
+                                          child: Row(
+                                            mainAxisSize: MainAxisSize.min,
+                                            children: [
+                                              Icon(
+                                                Icons.check,
+                                                size: 18,
+                                              ),
+                                              const SizedBox(width: 4),
+                                              Text(
+                                                "Yes",
+                                                style: TextStyle(fontSize: 16),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                      ],
                                     ),
+                                  );
+                                },
+                                leading: Icon(
+                                  Icons.exit_to_app,
+                                  color: Colors.red,
+                                ),
+                                title: Text(
+                                  "Logout",
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.red,
                                   ),
-                                  trailing: Icon(
-                                    Icons.chevron_right,
-                                    color: Colors.black,
-                                  ),
+                                ),
+                                trailing: Icon(
+                                  Icons.chevron_right,
+                                  color: Colors.red,
                                 ),
                               ),
                             ],
